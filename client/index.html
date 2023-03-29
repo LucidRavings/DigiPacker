@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiPacker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>DigiPacker</h1>
+    </header>
+    
+    <main>
+        <form_section>
+            <item_form_section>
+                <form id="item-form">
+                    <h3>Add an Item</h3>
+                    <div class="input">
+                        <label for="item-name-input" id="item-name-input-lable">Name:</label>
+                        <input type="text" placeholder="Sleeping bag" id="item-name-input"/>
+                    </div>
+                    <div class="input">
+                        <label for="item-weight-input" id="item-weight-input-label">Weight (lbs):</label>
+                        <input type="number" placeholder="2" id="item-weight-input"/>
+                    </div>
+        
+                    <input type="submit" class = "submit" id="item-submit-button"/>
+                </form>
+            </item_form_section>
+    
+            <box_form_section>
+                <form id="box-form">
+                    <h3>Add a Box</h3>
+                    <div class="input">
+                        <label for="box-name-input" id="box-name-input-label">Name:</label>
+                        <input type="text" placeholder="Backpack" id="box-name-input"/>
+                    </div>
+                    <div class="input">
+                        <label for="box-weight-input" id="box-weight-input-label">Weight (lbs):</label>
+                        <input type="number" placeholder="5" id="box-weight-input"/>
+                    </div>
+                    <div class="input">
+                        <label for="box-weight-capacity-input" id="box-weight-capacity-input-label">Weight Capacity (lbs)</label>
+                        <input type="number" placeholder="50" id="box-weight-capacity-input"/>
+                    </div>
+                        <input type="submit" class = "submit" id="box-submit-button">
+                </form>
+            </box_form_section>
+        </form_section>
+        
+
+        <item_section>
+            <item_window>
+
+            </item_window>
+        </item_section>
+
+
+        <box_section>
+
+        </box_section>
+        
+
+        <display_section>
+            <box_contents_window>
+                
+            </box_contents_window>
+        </display_section>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
