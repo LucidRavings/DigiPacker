@@ -5,7 +5,8 @@ const {SERVER_PORT} = process.env
 const app = express()
 const {
     //seed
-    getItems,
+    getBoxItems,
+    getUnassignedItems,
     addItem
 } = require('./controller.js')
 
@@ -14,7 +15,8 @@ app.use(cors())
 app.use(express.static(`${__dirname}/../client`))
 
 // app.post('/seed', seed)
-app.get('/getItems', getItems )
+app.get('/getUnassignedItems', getUnassignedItems )
+app.get('/getBoxItems', getBoxItems)
 app.post('/addItem', addItem)
 
 

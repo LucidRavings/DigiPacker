@@ -23,7 +23,16 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         
     },
 
-    getItems: (req, res) => {
+    getBoxItems: (req, res) => {
+        sequelize.query(`
+        SELECT (name, weight)
+        FROM items
+        WHERE box_id = 1
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
+    getUnassignedItems: (req, res) => {
         sequelize.query(`
         SELECT (name, weight)
         FROM items
