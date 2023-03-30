@@ -12,10 +12,22 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
   })
 
   module.exports = {
+    addItem: (req, res) => {
+        let {name, weight} = req.body
+
+        sequelize.query(`
+        INSERT INTO items (name, weight, box_id)
+        VALUES ('${name}', ${weight}, null);
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+        
+    },
+
     getItems: (req, res) => {
         sequelize.query(`
         SELECT (name, weight)
         FROM items
+        WHERE box_id IS null
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))
     },
