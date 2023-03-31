@@ -85,12 +85,21 @@ form {
     border-radius: 100px;
     margin-top: 18px;
 }
+
 li {
     display: flex;
     flex-direction: row;
     color: white;
     margin: 5px;
 }
+
+.delete-button {
+    margin-left: 5px;
+    color: white;
+    background-color: red;
+    border-radius: 100px;
+}
+
 item-name {
     margin-right: 5px;
 }

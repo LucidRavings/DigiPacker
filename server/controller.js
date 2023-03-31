@@ -25,7 +25,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
 
     getBoxItems: (req, res) => {
         sequelize.query(`
-        SELECT (name, weight)
+        SELECT item_id, name, weight
         FROM items
         WHERE box_id = 1
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
@@ -34,7 +34,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
 
     getUnassignedItems: (req, res) => {
         sequelize.query(`
-        SELECT (name, weight)
+        SELECT item_id, name, weight
         FROM items
         WHERE box_id IS null
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
@@ -43,7 +43,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
 
     getboxes: (req, res) => {
         sequelize.query(`
-        SELECT (name, weight, weight_capacity)
+        SELECT name, weight, weight_capacity
         FROM boxes
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))

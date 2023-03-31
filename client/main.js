@@ -7,6 +7,7 @@ const boxWeightCapacityInput= document.querySelector("#box-weight-capacity-input
 const itemForm = document.querySelector("#item-form")
 const unassignedItemList = document.querySelector("#unassigned-item-list")
 const boxedItemsList = document.querySelector("#boxed-items-list")
+const deleteButtons = document.querySelectorAll('.delete-button')
 
 
 
@@ -36,6 +37,7 @@ const getUnassignedItems = () => {
     unassignedItemList.innerHTML = ""
     axios.get('/getUnassignedItems')
     .then(res => {
+        console.log(res.data)
         for (i = 0; i < res.data.length; i++){
             // console.log(res.data[i].row)
             const li = document.createElement("li")
@@ -43,9 +45,17 @@ const getUnassignedItems = () => {
             let output = res.data[i].row
             output = output.replaceAll("(", "")
             output = output.replaceAll(`"`, "")
-            output = output.replaceAll(")", "")
+            output = output.replaceAll(")", " (lbs)")
             output = output.replaceAll(",", " - ")
+            // output = output + `<button class="delete-button">X
+            // </button>`
             p.innerHTML = output
+            let button = document.createElement("button")
+            button.classList.add("delete-button")
+            button.innerHTML = "X"
+            button.addEventListener('click', () => {
+
+            })
             li.appendChild(p)
             unassignedItemList.appendChild(li)
         }
@@ -60,11 +70,9 @@ const getBoxItems = () => {
             // console.log(res.data[i].row)
             const li = document.createElement("li")
             const p = document.createElement("p")
-            let output = res.data[i].row
-            output = output.replaceAll("(", "")
-            output = output.replaceAll(`"`, "")
-            output = output.replaceAll(")", "")
-            output = output.replaceAll(",", " - ")
+            let output = res.data[i].name
+            output = output + `<button class="delete-button">X
+            </button>`
             p.innerHTML = output
             li.appendChild(p)
             boxedItemsList.appendChild(li)
@@ -72,6 +80,28 @@ const getBoxItems = () => {
     })
 }
 
+
+
+const clickTest = (event) => {
+    if(event){
+        alert ('You clicked a button!')
+    }
+}
+
 getBoxItems()
 getUnassignedItems()
+
+
+// deleteButtons.forEach(deleteButton => {
+//     deleteButton.addEventListener('click', function clickTest(event) {
+//     console.log('button clicked', event)
+//     })
+// })
+
+// deleteButtons.forEach(deleteButton => {
+//     deleteButton.addEventListener('click', clickTest(event) {
+//     console.log('button clicked', event)
+//     })
+// })
+
 itemForm.addEventListener('submit', itemSubmit)
