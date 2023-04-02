@@ -39,23 +39,21 @@ const getUnassignedItems = () => {
     .then(res => {
         console.log(res.data)
         for (i = 0; i < res.data.length; i++){
-            // console.log(res.data[i].row)
             const li = document.createElement("li")
             const p = document.createElement("p")
-            let output = res.data[i].row
-            output = output.replaceAll("(", "")
-            output = output.replaceAll(`"`, "")
-            output = output.replaceAll(")", " (lbs)")
-            output = output.replaceAll(",", " - ")
-            // output = output + `<button class="delete-button">X
-            // </button>`
+            let output = res.data[i].name + ": " + res.data[i].weight + "(lbs)"
             p.innerHTML = output
+            p.id = res.data[i].item_id
             let button = document.createElement("button")
             button.classList.add("delete-button")
             button.innerHTML = "X"
-            button.addEventListener('click', () => {
-
+            button.addEventListener('click', (event) => {
+                console.log("Button clicked!",  event)
+                console.log(p.id)
+                axios.delete(`/deleteUnassignedItem/${p.id}`)
+                event.srcElement.parentNode.parentNode.remove()
             })
+            p.appendChild(button)
             li.appendChild(p)
             unassignedItemList.appendChild(li)
         }
@@ -67,41 +65,28 @@ const getBoxItems = () => {
     axios.get('/getBoxItems')
     .then(res => {
         for (i = 0; i < res.data.length; i++){
-            // console.log(res.data[i].row)
             const li = document.createElement("li")
             const p = document.createElement("p")
-            let output = res.data[i].name
-            output = output + `<button class="delete-button">X
-            </button>`
+            let output = res.data[i].name + ": " + res.data[i].weight
             p.innerHTML = output
+            p.id = res.data[i].item_id
+            let button = document.createElement("button")
+            button.classList.add("delete-button")
+            button.innerHTML = "X"
+            button.addEventListener('click', (event) => {
+                console.log("Button clicked!",  event)
+                console.log(p.id)
+                axios.delete(`/deleteUnassignedItem/${p.id}`)
+                event.srcElement.parentNode.parentNode.remove()
+            })
+            p.appendChild(button)
             li.appendChild(p)
             boxedItemsList.appendChild(li)
         }
     })
 }
 
-
-
-const clickTest = (event) => {
-    if(event){
-        alert ('You clicked a button!')
-    }
-}
-
 getBoxItems()
 getUnassignedItems()
-
-
-// deleteButtons.forEach(deleteButton => {
-//     deleteButton.addEventListener('click', function clickTest(event) {
-//     console.log('button clicked', event)
-//     })
-// })
-
-// deleteButtons.forEach(deleteButton => {
-//     deleteButton.addEventListener('click', clickTest(event) {
-//     console.log('button clicked', event)
-//     })
-// })
 
 itemForm.addEventListener('submit', itemSubmit)

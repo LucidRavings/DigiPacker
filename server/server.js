@@ -5,6 +5,7 @@ const {SERVER_PORT} = process.env
 const app = express()
 const {
     //seed
+    deleteUnassignedItem,
     getBoxItems,
     getUnassignedItems,
     addItem
@@ -18,6 +19,7 @@ app.use(express.static(`${__dirname}/../client`))
 app.get('/getUnassignedItems', getUnassignedItems )
 app.get('/getBoxItems', getBoxItems)
 app.post('/addItem', addItem)
+app.delete('/deleteUnassignedItem/:id', deleteUnassignedItem)
 
 
 app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`))
