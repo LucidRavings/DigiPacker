@@ -5,12 +5,14 @@ const {SERVER_PORT} = process.env
 const app = express()
 const {
     //seed
-    getBoxes,
-    addBox,
-    deleteUnassignedItem,
-    getBoxItems,
+    addItem,
     getUnassignedItems,
-    addItem
+    deleteUnassignedItem,
+    addBox,
+    getBoxes,
+    deleteBox,
+    getBoxItems
+    
 } = require('./controller.js')
 
 app.use(express.json())
@@ -24,6 +26,7 @@ app.get('/getBoxItems', getBoxItems)
 app.post('/addItem', addItem)
 app.post('/addBox', addBox)
 app.delete('/deleteUnassignedItem/:id', deleteUnassignedItem)
+app.delete('/deleteBox/:id', deleteBox)
 
 
 app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`))

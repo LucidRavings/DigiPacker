@@ -69,6 +69,19 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         .catch(err => console.log(err))
     },
 
+    deleteBox: (req, res) => {
+        let { id } = req.params
+    
+        sequelize.query(`
+            DELETE FROM items
+            WHERE box_id = ${id};
+            
+            DELETE FROM boxes
+            WHERE box_id = ${id};
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
     seed: (req, res) => {
         sequelize.query(`
             drop table if exists items;

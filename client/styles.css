@@ -132,6 +132,14 @@ box_section {
     margin-top: 10px;
 }
 
+box_window {
+    overflow-y: scroll;
+    width: 10000px;
+    height: 190px;
+    margin: 10px;
+    background-color: rgba(20, 0, 0, 0.5);
+}
+
 box_contents_window {
     overflow-y: scroll;
     width: 10000px;

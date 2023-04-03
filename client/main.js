@@ -1,13 +1,16 @@
-// const document.addEventListener('DOMContentLoaded', getItems()
+const itemForm = document.querySelector("#item-form")
 const itemNameInput = document.querySelector("#item-name-input")
 const itemWeightInput = document.querySelector("#item-weight-input")
+
+const boxForm = document.querySelector("#box-form")
 const boxNameInput = document.querySelector("#box-name-input")
 const boxWeightInput = document.querySelector("#box-weight-input")
 const boxWeightCapacityInput= document.querySelector("#box-weight-capacity-input")
-const itemForm = document.querySelector("#item-form")
-const boxForm = document.querySelector("#box-form")
+
 const unassignedItemList = document.querySelector("#unassigned-item-list")
+const boxList = document.querySelector("#box-list")
 const boxedItemsList = document.querySelector("#boxed-items-list")
+
 const deleteButtons = document.querySelectorAll('.delete-button')
 
 
@@ -94,7 +97,31 @@ const getUnassignedItems = () => {
 }
 
 const getBoxes = () => {
+    boxList.innerHTML = ""
     console.log("getBoxes triggered!")
+    axios.get('/getBoxes')
+    .then(res => {
+        console.log(res.data)
+        for (i = 0; i < res.data.length; i++){
+            const li = document.createElement("li")
+            const p = document.createElement("p")
+            let output = res.data[i].name + ": " + res.data[i].weight + " / " + res.data[i].weight_capacity
+            p.innerHTML = output
+            p.id = res.data[i].box_id
+            let button = document.createElement("button")
+            button.classList.add("delete-button")
+            button.innerHTML = "X"
+            button.addEventListener('click', (event) => {
+                console.log("Button clicked!",  event)
+                console.log(p.id)
+                axios.delete(`/deleteBox/${p.id}`)
+                event.srcElement.parentNode.parentNode.remove()
+            })
+            p.appendChild(button)
+            li.appendChild(p)
+            boxList.appendChild(li)
+        }
+    })
 }
 
 const getBoxItems = () => {
