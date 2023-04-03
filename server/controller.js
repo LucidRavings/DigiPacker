@@ -23,6 +23,16 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         
     },
 
+    addBox: (req, res) => {
+        let {name, weight, weight_capacity} = req.body
+
+        sequelize.query(`
+        INSERT INTO boxes (name, weight, weight_capacity)
+        VALUES ('${name}', ${weight}, ${weight_capacity})
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
     getBoxItems: (req, res) => {
         sequelize.query(`
         SELECT item_id, name, weight
@@ -41,9 +51,9 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         .catch(err => console.log(err))
     },
 
-    getboxes: (req, res) => {
+    getBoxes: (req, res) => {
         sequelize.query(`
-        SELECT name, weight, weight_capacity
+        SELECT box_id, name, weight, weight_capacity
         FROM boxes
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))
@@ -67,19 +77,19 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
             CREATE TABLE boxes (
                 box_id SERIAL PRIMARY KEY,
                 name VARCHAR,
-                weight INT,
-                weight_capacity INT
+                weight INT NOT NULL,
+                weight_capacity INT NOT NULL
             );
 
             CREATE TABLE items (
                 item_id SERIAL PRIMARY KEY,
                 name VARCHAR,
-                weight INT
+                weight INT NOT NULL
                 box_id INT REFERENCES boxes (box_id)
             );
 
             INSERT INTO boxes (name, weight, weight_capacity)
-            VALUES ('Box 1', null, 50),
+            VALUES ('Box 1', 0, 50),
             ('Box 2', 5, 100);
 
             INSERT INTO items (name, weight, box_id)
