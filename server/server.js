@@ -11,6 +11,7 @@ const {
     packItem,
     addBox,
     getBoxes,
+    emptyBox,
     deleteBox,
     getBoxItems,
     unpackItem
@@ -31,6 +32,7 @@ app.delete('/deleteUnassignedItem/:id', deleteUnassignedItem)
 app.delete('/deleteBox/:id', deleteBox)
 app.put('/packItem', packItem)
 app.put('/unpackItem', unpackItem)
+app.put('/emptyBox', emptyBox)
 
 
 app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`))

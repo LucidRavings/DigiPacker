@@ -168,7 +168,22 @@ const getBoxes = () => {
                 getBoxItems()
             })
 
+            let empty = document.createElement("button")
+            empty.classList.add("empty-button")
+            empty.innerHTML = "Empty"
+            empty.addEventListener('click', (event) => {
+                console.log("Button clicked!", event)
+                let body = {
+                    boxId: p.id
+                }
+                axios.put('/emptyBox', body).then(() => {
+                    getUnassignedItems()
+                    getBoxes()
+                    getBoxItems()
+                })
+            })
             p.appendChild(open)
+            p.appendChild(empty)
             p.appendChild(button)
             li.appendChild(p)
             boxList.appendChild(li)

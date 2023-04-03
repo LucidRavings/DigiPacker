@@ -110,6 +110,17 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         .catch(err => console.log(err))
     },
 
+    emptyBox: (req, res) => {
+        let { boxId } = req.body
+        
+        sequelize.query(`
+            UPDATE items
+            SET box_id = null
+            WHERE box_id = ${boxId}
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
     seed: (req, res) => {
         sequelize.query(`
             drop table if exists items;
