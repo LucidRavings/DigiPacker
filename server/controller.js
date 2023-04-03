@@ -34,12 +34,18 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
     },
 
     getBoxItems: (req, res) => {
+        console.log(req.body)
+        if (req.body.boxId === undefined) {
+            res.sendStatus(200)
+        } else {
+            let { boxId } = req.body
         sequelize.query(`
         SELECT item_id, name, weight
         FROM items
-        WHERE box_id = 1
+        WHERE box_id = ${boxId}
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))
+        }
     },
 
     getUnassignedItems: (req, res) => {
@@ -75,9 +81,20 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         sequelize.query(`
             DELETE FROM items
             WHERE box_id = ${id};
-            
+
             DELETE FROM boxes
             WHERE box_id = ${id};
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
+    packItem: (req, res) => {
+        let { boxId, itemId } = req.body
+
+        sequelize.query(`
+            UPDATE items
+            SET box_id = ${boxId}
+            WHERE item_id = ${itemId}
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))
     },
