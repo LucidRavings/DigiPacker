@@ -208,7 +208,22 @@ const getBoxItems = () => {
                     getBoxes()
                     getBoxItems()
                 })
-    
+
+                let unpack = document.createElement("button")
+                unpack.classList.add("unpack-button")
+                unpack.innerHTML = "Unpack"
+                unpack.addEventListener('click', (event) => {
+                console.log("Button clicked!", event)
+                let body = {
+                    itemId: p.id
+                }
+                axios.put('/unpackItem', body).then(() => {
+                    getUnassignedItems()
+                    getBoxes()
+                    getBoxItems()
+                })
+            })
+                p.appendChild(unpack)
                 p.appendChild(button)
                 li.appendChild(p)
                 boxedItemsList.appendChild(li)

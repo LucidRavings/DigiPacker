@@ -99,6 +99,17 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         .catch(err => console.log(err))
     },
 
+    unpackItem: (req, res) => {
+        let { itemId } = req.body
+
+        sequelize.query(`
+            UPDATE items
+            SET box_id = null
+            WHERE item_id = ${itemId}
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
     seed: (req, res) => {
         sequelize.query(`
             drop table if exists items;
@@ -114,7 +125,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
             CREATE TABLE items (
                 item_id SERIAL PRIMARY KEY,
                 name VARCHAR,
-                weight INT NOT NULL
+                weight INT NOT NULL,
                 box_id INT REFERENCES boxes (box_id)
             );
 

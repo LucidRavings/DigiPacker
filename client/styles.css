@@ -100,6 +100,13 @@ li {
     color: white;
     border-radius: 100px;
 }
+.unpack-button {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgb(139, 106, 21);
+    color: white;
+    border-radius: 100px;
+}
 
 .open-button {
     margin-left: 5px;

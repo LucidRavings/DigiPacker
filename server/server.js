@@ -12,7 +12,8 @@ const {
     addBox,
     getBoxes,
     deleteBox,
-    getBoxItems
+    getBoxItems,
+    unpackItem
     
 } = require('./controller.js')
 
@@ -29,6 +30,7 @@ app.post('/addBox', addBox)
 app.delete('/deleteUnassignedItem/:id', deleteUnassignedItem)
 app.delete('/deleteBox/:id', deleteBox)
 app.put('/packItem', packItem)
+app.put('/unpackItem', unpackItem)
 
 
 app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`))
