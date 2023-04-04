@@ -34,7 +34,10 @@ const itemSubmit = (e) => {
         name: itemNameInput.value,
         weight: +itemWeightInput.value
     }
-        axios.post('/addItem', body).then(() => {getUnassignedItems()})
+        axios.post('/addItem', body).then(() => {
+            getUnassignedItems()
+            getBoxes()
+        })
         
 }
 
@@ -66,7 +69,11 @@ const boxSubmit = (e) => {
         weight: +boxWeightInput.value,
         weight_capacity: +boxWeightCapacityInput.value
     }
-        axios.post('/addBox', body).then(() => {getBoxes()})
+        axios.post('/addBox', body).then(() => {
+            getUnassignedItems()
+            getBoxes()
+        })
+        
 }
 
 const getUnassignedItems = () => {
@@ -77,7 +84,7 @@ const getUnassignedItems = () => {
         for (i = 0; i < res.data.length; i++){
             const li = document.createElement("li")
             const p = document.createElement("p")
-            let output = res.data[i].name + ": " + res.data[i].weight + "(lbs) "
+            let output = res.data[i].name + ": " + res.data[i].weight + " (lbs) "
             p.innerHTML = output
             p.id = res.data[i].item_id
 
@@ -138,55 +145,78 @@ const getBoxes = () => {
     // console.log("getBoxes triggered!")
     axios.get('/getBoxes')
     .then(res => {
-        // console.log(res.data)
+        // console.log("getBoxes res", res.data)
         for (i = 0; i < res.data.length; i++){
             const li = document.createElement("li")
             const p = document.createElement("p")
-            let output = res.data[i].name + ": " + res.data[i].weight + " / " + res.data[i].weight_capacity
-            p.innerHTML = output
+            let boxName = res.data[i].name
+            let boxWeight = res.data[i].weight
+            let boxWeightCapacity = res.data[i].weight_capacity
             p.id = res.data[i].box_id
-
-            let button = document.createElement("button")
-            button.classList.add("delete-button")
-            button.innerHTML = "X"
-            button.addEventListener('click', (event) => {
-                console.log("Button clicked!",  event)
-                console.log(p.id)
-                axios.delete(`/deleteBox/${p.id}`)
-                event.srcElement.parentNode.parentNode.remove()
-                getUnassignedItems()
-                getBoxes()
-                getBoxItems()
-            })
-
-            let open = document.createElement("button")
-            open.classList.add("open-button")
-            open.innerHTML = "Open"
-            open.addEventListener('click', (event) => {
-                console.log("Button clicked!", event)
-                boxedItemsList.setAttribute("box-id-placeholder", p.id)
-                getBoxItems()
-            })
-
-            let empty = document.createElement("button")
-            empty.classList.add("empty-button")
-            empty.innerHTML = "Empty"
-            empty.addEventListener('click', (event) => {
-                console.log("Button clicked!", event)
-                let body = {
-                    boxId: p.id
+            
+            axios.get(`/getItemWeight/${p.id}`)
+            .then((res) => {
+                console.log(res.data)
+                answer = []
+                res.data.forEach((e) => {
+                    answer.push(e.weight)
+                })
+                let sum = 0
+                for (i = 0; i < answer.length; i++){
+                    sum += answer[i]
                 }
-                axios.put('/emptyBox', body).then(() => {
+                if (sum > boxWeightCapacity){
+                    p.style.color = 'red'
+                }
+                let output = boxName + ": " + boxWeight + " (lbs) | " + sum + "/" + boxWeightCapacity + " | " + "Total Weight: " + (sum + boxWeight)
+                
+                    p.innerHTML = output
+                
+                
+
+                let button = document.createElement("button")
+                button.classList.add("delete-button")
+                button.innerHTML = "X"
+                button.addEventListener('click', (event) => {
+                    console.log("Button clicked!",  event)
+                    console.log(p.id)
+                    axios.delete(`/deleteBox/${p.id}`)
+                    event.srcElement.parentNode.parentNode.remove()
                     getUnassignedItems()
                     getBoxes()
                     getBoxItems()
                 })
-            })
-            p.appendChild(open)
-            p.appendChild(empty)
-            p.appendChild(button)
-            li.appendChild(p)
-            boxList.appendChild(li)
+
+                let open = document.createElement("button")
+                open.classList.add("open-button")
+                open.innerHTML = "Open"
+                open.addEventListener('click', (event) => {
+                    console.log("Button clicked!", event)
+                    boxedItemsList.setAttribute("box-id-placeholder", p.id)
+                    getBoxItems()
+                })
+
+                let empty = document.createElement("button")
+                empty.classList.add("empty-button")
+                empty.innerHTML = "Empty"
+                empty.addEventListener('click', (event) => {
+                    console.log("Button clicked!", event)
+                    let body = {
+                        boxId: p.id
+                    }
+                    axios.put('/emptyBox', body).then(() => {
+                        getUnassignedItems()
+                        getBoxes()
+                        getBoxItems()
+                    })
+                })
+                p.appendChild(open)
+                p.appendChild(empty)
+                p.appendChild(button)
+                li.appendChild(p)
+                boxList.appendChild(li)
+
+            }).catch((err) => {console.log(err)})
         }
     })
 }
@@ -200,14 +230,14 @@ const getBoxItems = () => {
     console.log("boxIdPlaceholder", boxIdPlaceholder)
     axios.put('/getBoxItems', body)
     .then(res => {
-        console.log(res.data)
+        console.log("getBoxItems res", res.data)
         if (res.data === "OK"){
             console.log("nothing happened...")
         } else {
             for (i = 0; i < res.data.length; i++){
                 const li = document.createElement("li")
                 const p = document.createElement("p")
-                let output = res.data[i].name + ": " + res.data[i].weight + "(lbs) "
+                let output = res.data[i].name + ": " + res.data[i].weight + " (lbs) "
                 p.innerHTML = output
                 p.id = res.data[i].item_id
     

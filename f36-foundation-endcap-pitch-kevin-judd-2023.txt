@@ -1,0 +1,24 @@
+Student Name: 
+	Kevin Judd
+
+Foundation Endcap Name: 
+	DigiPacker
+
+Description:
+	DigiPacker is a digital tool that allows the user to create Items and Containers in a simulated weight-focused packing enviroment.
+
+Pitch:
+	If you've ever been on hike only to realize you've overpacked, or arrived at the airport only to wind up paying extra for luggage; then you could have used Digipacker!  DigiPacker lets you take the guesstimation out of relaxation, so you can spend less time worrying about "what if's" and more time enjoying your home away from home.  Digipacker lets you create a list of everything you want to pack in one easy location, and gives you the freedom to mix and match between all your backpacks and suitcases, until you find the perfect fit!  Whether it's just a day-trip, or that dream vacation you've been planning on; DigiPacker can help you be prepared, with room to spare!
+
+MVP goals:
+	1. Add Items and Containers with Names, Weight, and Weight Capacities; using forms.
+	2. Move those Items in and out of user generated Containers.
+	3. Track and display total weight of all items and all containers via UI and database.
+	4. Remove any unwanted Items/Containers with individual delete buttons.
+	5. Display all items inside a specific container with an individual button.
+
+Stretch goals:
+	- Edit existing Item and Container values. (name, weight, weight capacity)
+	- Move all items from a container, back into the unassigned item container, with a single button.
+	- Move items in and out of containers with click-and-drag.
+	- Display weight capacity ratio/percentage of a container as a color-changing bar that switches from green, to yellow, to red, as it reaches closer to maximum capacity.  Displaying as a full red bar if over capacity.

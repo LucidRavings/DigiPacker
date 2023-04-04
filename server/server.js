@@ -4,13 +4,14 @@ const cors = require('cors')
 const {SERVER_PORT} = process.env
 const app = express()
 const {
-    //seed
+    seed,
     addItem,
     getUnassignedItems,
     deleteUnassignedItem,
     packItem,
     addBox,
     getBoxes,
+    getItemWeight,
     emptyBox,
     deleteBox,
     getBoxItems,
@@ -22,9 +23,10 @@ app.use(express.json())
 app.use(cors())
 app.use(express.static(`${__dirname}/../client`))
 
-// app.post('/seed', seed)
+app.post('/seed', seed)
 app.get('/getUnassignedItems', getUnassignedItems )
 app.get('/getBoxes', getBoxes)
+app.get('/getItemWeight/:id', getItemWeight)
 app.put('/getBoxItems', getBoxItems)
 app.post('/addItem', addItem)
 app.post('/addBox', addBox)

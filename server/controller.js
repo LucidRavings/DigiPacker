@@ -34,7 +34,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
     },
 
     getBoxItems: (req, res) => {
-        console.log(req.body)
+        // console.log(req.body)
         if (req.body.boxId === undefined) {
             res.sendStatus(200)
         } else {
@@ -61,6 +61,17 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
         sequelize.query(`
         SELECT box_id, name, weight, weight_capacity
         FROM boxes
+        `).then((dbRes) => {res.status(200).send(dbRes[0])})
+        .catch(err => console.log(err))
+    },
+
+    getItemWeight: (req, res) => {
+        console.log("getItemWeight req.params", req.params.id)
+        let { id } = req.params
+        sequelize.query(`
+        SELECT weight
+        FROM items
+        WHERE box_id = ${id}
         `).then((dbRes) => {res.status(200).send(dbRes[0])})
         .catch(err => console.log(err))
     },
@@ -145,7 +156,7 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
             ('Box 2', 5, 100);
 
             INSERT INTO items (name, weight, box_id)
-            VALUES ('Item 1', 10, 1)
+            VALUES ('Item 1', 10, 1);
 
         `).then(() => {
             console.log('DataBase seeded!')
