@@ -34,7 +34,6 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
     },
 
     getBoxItems: (req, res) => {
-        // console.log(req.body)
         if (req.body.boxId === undefined) {
             res.sendStatus(200)
         } else {
@@ -66,7 +65,6 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
     },
 
     getItemWeight: (req, res) => {
-        console.log("getItemWeight req.params", req.params.id)
         let { id } = req.params
         sequelize.query(`
         SELECT weight
